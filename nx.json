@@ -29,7 +29,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["db/*"]
     },
     {
       "plugin": "@nx/react/router-plugin",
@@ -72,6 +73,16 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "test"
+      },
+      "exclude": ["apps/budge-api-e2e/**/*"]
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["db/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
       }
     }
   ],
@@ -81,6 +92,11 @@
     },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {

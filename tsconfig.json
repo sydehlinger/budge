@@ -8,6 +8,9 @@
     },
     {
       "path": "./apps/budge"
+    },
+    {
+      "path": "./apps/budge-api"
     }
   ]
 }
