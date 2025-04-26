@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Home } from './views/Home';
 import { Transactions } from './views/Transactions';
 import { Container } from '@mui/material';
-import { AddTransactions } from './views/AddTransactions';
 import { Layout } from './views/Layout';
+import { AddTransactions } from './views/AddTransactions';
 
 export function App() {
   return (

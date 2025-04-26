@@ -1,32 +1,30 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, FormControl, MenuItem, Select, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { Dayjs } from 'dayjs';
-import { useState } from 'react';
 import { Header } from '../components/Header';
-
-
-type Inputs = {
-    description: string
-    amount: string
-    date: Dayjs
-    category: string
-}
+import { Transaction } from '../types/Transaction';
+import { AppDispatch } from '../../main';
+import { useDispatch } from 'react-redux';
+import { transactionAdded } from '../redux/slices/transactionsSlice';
 
 export function AddTransactions() {
-    const [amount, setAmount] = useState(0)
+    const dispatch = useDispatch<AppDispatch>();
+
     const {
         register,
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<Inputs>()
+    } = useForm<Transaction>()
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<Transaction> = (data) => {
+        console.log(data)
+        dispatch(transactionAdded(data))
+    }
 
     return (
         <>
-            <Header title='Add transactions page'/>
+            <Header title='Add transactions page' />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
                     <Controller
@@ -36,10 +34,10 @@ export function AddTransactions() {
                         render={({ field }) => {
                             return (<DatePicker
                                 label="Date"
-                                value={field.value}
+                                defaultValue={field.value}
                                 inputRef={field.ref}
                                 onChange={(date) => {
-                                    field.onChange(date);
+                                    field.onChange(date?.format('MM/DD/YYYY'));
                                 }}
                             />)
                         }}

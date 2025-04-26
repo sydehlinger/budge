@@ -1,9 +1,10 @@
 import { Button } from '@mui/material';
+import { Header } from '../components/Header';
 
 export function Home() {
     return (
         <>
-            <p>This is the home/overview page</p>
+            <Header title='Overview page'/>
             <Button href='/transactions'>Transactions</Button>
         </>
     );
