@@ -1,0 +1,17 @@
+version: "4.12.0"
+
+services:
+  nodeserver:
+    container_name: budge-api
+    image: node:20.8.0
+    build:
+      context: .
+      dockerfile: ./apps/budge-api/Dockerfile.local
+    command: npm run dev
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
