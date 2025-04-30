@@ -14,4 +14,13 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - 8080:8080
+  client:
+    container_name: frontend
+    image: node:20.1.0
+    build:
+      context: .
+      dockerfile: ./apps/budge/Dockerfile.local
+    command: npm run start
+    ports: 
+      - 4200:4200
