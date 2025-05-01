@@ -7,14 +7,6 @@ export interface AppOptions {}
 
 export async function app(fastify: FastifyInstance, opts: AppOptions) {
   // Place here your custom code!
-  fastify.register(require('@fastify/postgres'), {
-    host: 'localhost',
-    port: '5432',
-    database: 'postgres',
-    user: 'postgres',
-    password: 'postgres',
-    connectionString: 'postgres://postgres@localhost/postgres'
-  });
 
   // Do not touch the following lines
 

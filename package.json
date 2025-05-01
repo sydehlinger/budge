@@ -4,7 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start": "npx nx serve budge",
-    "dev": "nodemon apps/budge-api/src/main.ts"
+    "dev": "nodemon apps/budge-api/src/main.ts",
+    "reset": "docker exec -it budge-api npx prisma migrate reset",
+    "migration": "docker exec -it budge-api npx prisma migrate dev --name init",
+    "migrate": "docker exec -it budge-api npx prisma migrate deploy",
+    "seed": "docker exec -it budge-api npx prisma db seed"
   },
   "private": true,
   "dependencies": {
@@ -15,12 +19,14 @@
     "@fastify/sensible": "~6.0.2",
     "@mui/material": "^7.0.2",
     "@mui/x-date-pickers": "^8.1.0",
+    "@prisma/client": "^6.7.0",
     "@reduxjs/toolkit": "^2.7.0",
     "axios": "^1.6.0",
     "dayjs": "^1.11.13",
     "fastify": "~5.2.1",
     "fastify-plugin": "~5.0.1",
     "pg": "^8.15.5",
+    "prisma": "^6.7.0",
     "react": "19.0.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "19.0.0",
@@ -88,5 +94,9 @@
   "workspaces": [
     "apps/*",
     "db"
-  ]
+  ],
+  "prisma": {
+    "schema": "apps/budge-api/prisma/schema.prisma",
+    "seed": "ts-node apps/budge-api/prisma/seed.ts"
+  }
 }
