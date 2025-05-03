@@ -5,23 +5,19 @@ import { getSeedData } from './data'
 const client = new PrismaClient()
 
 const deleteAllRecords = async () => {
-  // Deletion order is important due to non-null relation constraints.
-  await client.$transaction([
-    client.transaction.deleteMany(),
-  ])
-
+  await client.transaction.deleteMany();
   console.log('All records deleted')
 }
 
 const createAllRecords = async () => {
-  // Deletion order is important due to non-null relation constraints.
   const data = await getSeedData()
-
-  await client.$transaction([
-    client.transaction.createMany({ data: data.transactionData })
-  ])
-
-  console.log('All records created')
+  console.log(data);
+  try{
+    await client.transaction.createMany({ data: data.transactionData});
+  } catch (err) {
+    console.log('create transaction failed', err);
+  }
+  console.log('All transactions created')
 }
 
 async function seed() {
