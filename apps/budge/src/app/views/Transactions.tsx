@@ -1,22 +1,41 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Header } from '../components/Header';
-import { Transaction } from './AddTransactions';
-
-function createData(
-    date: string,
-    recurring: number,
-    utilities: number,
-    deposits: number
-) {
-    return { date, recurring, utilities, deposits };
-}
-
-const rows = [
-    createData('01/01/2025', 159, 6.0, 24),
-    createData('02/01/2025', 237, 9.0, 37),
-];
+import { useEffect, useState } from 'react';
+import { Transaction } from '../types/Transaction';
 
 export function Transactions() {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/transactions', {
+                method: 'GET', // or 'POST', 'PUT', 'DELETE' etc.
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other headers your API requires
+                },
+                // If sending data with POST/PUT, add a body:
+                // body: JSON.stringify({ key: 'value' }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            // Handle the data received from the API
+            console.log(data);
+            setTransactions(data);
+        } catch (error) {
+            // Handle errors during the API call
+            console.error('There was an error fetching the data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     return (
         <>
             <Header title='Transaction page' />
@@ -26,25 +45,20 @@ export function Transactions() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Date</TableCell>
-                            <TableCell>Recurring</TableCell>
-                            <TableCell>Utilities</TableCell>
-                            <TableCell>Deposits</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Amount</TableCell>
+                            <TableCell>Category</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.date}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.date}
-                                </TableCell>
-                                <TableCell align="right">{row.recurring}</TableCell>
-                                <TableCell align="right">{row.utilities}</TableCell>
-                                <TableCell align="right">{row.deposits}</TableCell>
+                        {transactions.map((transaction: Transaction) => (
+                            <TableRow key={transaction.id}>
+                                <TableCell>{transaction.date.toString()}</TableCell>
+                                <TableCell>{transaction.description}</TableCell>
+                                <TableCell>{transaction.amount}</TableCell>
+                                <TableCell>{transaction.category}</TableCell>
                             </TableRow>
-                        ))}      
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

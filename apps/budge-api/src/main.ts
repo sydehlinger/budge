@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import CORSConfig from '@fastify/cors'
 import { app } from './app/app';
 
 const host = process.env.HOST ?? '0.0.0.0';
@@ -11,6 +12,11 @@ const server = Fastify({
 
 // Register your application as a normal plugin.
 server.register(app);
+
+server.register(CORSConfig, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})
 
 // Start listening.
 server.listen({ port, host }, (err) => {
