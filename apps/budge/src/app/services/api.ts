@@ -1,14 +1,14 @@
-import axios from "axios";
-
-const apiClient = axios.create({
-  baseURL: "http://localhost:8080",
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
-
 export const getTransactions = async () => {
-    const url = '/transactions';
-    const response = await apiClient.get(url);
-    return response.data;
-  }
+  return await fetch('http://localhost:8080/transactions', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+export const deleteTransaction = async (id: any) => {
+  return await fetch(`http://localhost:8080/transactions/delete/${id}`, {
+    method: 'POST'
+  });
+}

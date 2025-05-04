@@ -1,22 +1,36 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Header } from '../components/Header';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types/Transaction';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteTransaction, getTransactions } from '../services/api';
 
 export function Transactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+    const handleDelete = (transactionId: number) => {
+        console.log('delete', transactionId)
+        deleteData(transactionId)
+    }
+
+    const deleteData = async (id: number) => {
+        try {
+            const response = await deleteTransaction(id);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            console.log(response.status);
+        } catch (error) {
+            // Handle errors during the API call
+            console.error('There was an error fetching the data:', error);
+        }
+    };
+
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/transactions', {
-                method: 'GET', // or 'POST', 'PUT', 'DELETE' etc.
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Add any other headers your API requires
-                },
-                // If sending data with POST/PUT, add a body:
-                // body: JSON.stringify({ key: 'value' }),
-            });
+            const response = await getTransactions();
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,6 +58,7 @@ export function Transactions() {
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>ID</TableCell>
                             <TableCell>Date</TableCell>
                             <TableCell>Description</TableCell>
                             <TableCell>Amount</TableCell>
@@ -53,10 +68,12 @@ export function Transactions() {
                     <TableBody>
                         {transactions.map((transaction: Transaction) => (
                             <TableRow key={transaction.id}>
+                                <TableCell>{transaction.id}</TableCell>
                                 <TableCell>{transaction.date.toString()}</TableCell>
                                 <TableCell>{transaction.description}</TableCell>
                                 <TableCell>{transaction.amount}</TableCell>
                                 <TableCell>{transaction.category}</TableCell>
+                                <TableCell><IconButton onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
