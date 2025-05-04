@@ -1,5 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, FormControl, MenuItem, Select, TextField } from '@mui/material';
+import { Button, FormControl, Grid, MenuItem, Select, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Header } from '../components/Header';
 import { Transaction } from '../types/Transaction';
@@ -44,42 +44,46 @@ export function AddTransactions() {
 
     return (
         <>
-            <Header title='Add transactions page' />
+            <Header title='Add Transaction' />
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
-                    <Controller
-                        control={control}
-                        name='date'
-                        rules={{ required: true }}
-                        render={({ field }) => {
-                            return (<DatePicker
-                                label="Date"
-                                defaultValue={field.value}
-                                inputRef={field.ref}
-                                onChange={(date) => {
-                                    field.onChange(date?.format('MM/DD/YYYY'));
-                                }}
-                            />)
-                        }}
-                    />
-                    {errors.date && <span>This field is required</span>}
+                    <Grid container spacing={2}>
+                        <Controller
+                            control={control}
+                            name='date'
+                            rules={{ required: true }}
+                            render={({ field }) => {
+                                return (<DatePicker
+                                    label="Date"
+                                    defaultValue={field.value}
+                                    inputRef={field.ref}
+                                    onChange={(date) => {
+                                        field.onChange(date?.format('MM/DD/YYYY'));
+                                    }}
+                                />)
+                            }}
+                        />
+                        {errors.date && <span>This field is required</span>}
 
-                    <TextField label='Description' {...register('description', { required: true })} />
-                    {errors.description && <span>This field is required</span>}
+                        <TextField label='Description' {...register('description', { required: true })} />
+                        {errors.description && <span>This field is required</span>}
 
-                    <TextField label='Amount' type='number'  {...register('amount', { required: true, valueAsNumber: true })} />
-                    {errors.amount && <span>This field is required</span>}
+                        <TextField label='Amount' type='number'  {...register('amount', { required: true, valueAsNumber: true })} />
+                        {errors.amount && <span>This field is required</span>}
 
-                    <Select defaultValue='' {...register('category', { required: true })}>
-                        <MenuItem value='Deposits'>Deposits</MenuItem>
-                        <MenuItem value='Recurring'>Recurring</MenuItem>
-                        <MenuItem value='Utilities'>Utilities</MenuItem>
-                    </Select>
-                    {errors.category && <span>This field is required</span>}
-
-                    <Button type="submit">Submit</Button>
+                        <Select defaultValue='' {...register('category', { required: true })}>
+                            <MenuItem value='Deposits'>Deposits</MenuItem>
+                            <MenuItem value='Recurring'>Recurring</MenuItem>
+                            <MenuItem value='Utilities'>Utilities</MenuItem>
+                        </Select>
+                        {errors.category && <span>This field is required</span>}
+                    </Grid>
+                    <Button variant='contained' type="submit">Submit</Button>
                 </FormControl>
             </form>
+            <Button variant='text'>+ Add Row</Button>
+
         </>
     )
 }

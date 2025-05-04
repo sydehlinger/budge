@@ -1,9 +1,12 @@
-import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Header } from '../components/Header';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types/Transaction';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { deleteTransaction, getTransactions } from '../services/api';
+import dayjs from 'dayjs';
+import { DataGrid } from '@mui/x-data-grid';
 
 export function Transactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -24,7 +27,6 @@ export function Transactions() {
 
             console.log(response.status);
         } catch (error) {
-            // Handle errors during the API call
             console.error('There was an error fetching the data:', error);
         }
     };
@@ -42,7 +44,6 @@ export function Transactions() {
             console.log(data);
             setTransactions(data);
         } catch (error) {
-            // Handle errors during the API call
             console.error('There was an error fetching the data:', error);
         }
     };
@@ -53,8 +54,32 @@ export function Transactions() {
 
     return (
         <>
-            <Header title='Transaction page' />
-            <Button href='/add-transactions'>+ Add Transaction</Button>
+            <Header title='Transactions' />
+            <Box sx={{ pb: 2 }}>
+                <Button variant='contained' href='/add-transactions'>+ Add Transaction</Button>
+            </Box>
+            <DataGrid
+                rows={transactions}
+                columns={[
+                    {
+                        field: 'id',
+                        headerName: 'ID'
+                    },
+                    {
+                        field: 'description',
+                        headerName: 'Description'
+                    },
+                    {
+                        field: 'amount',
+                        headerName: 'Amount'
+                    },
+                    {
+                        field: 'category',
+                        headerName: 'Category'
+                    },
+                ]}
+            />
+
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -71,11 +96,14 @@ export function Transactions() {
                         {transactions.map((transaction: Transaction) => (
                             <TableRow key={transaction.id}>
                                 <TableCell>{transaction.id}</TableCell>
-                                <TableCell>{transaction.date.toString()}</TableCell>
+                                <TableCell>{dayjs(transaction.date).format('MM/DD/YYYY')}</TableCell>
                                 <TableCell>{transaction.description}</TableCell>
                                 <TableCell>{transaction.amount}</TableCell>
                                 <TableCell>{transaction.category}</TableCell>
-                                <TableCell><IconButton onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton></TableCell>
+                                <TableCell>
+                                    <IconButton onClick={() => handleDelete(transaction.id)}><EditIcon /></IconButton>
+                                    <IconButton onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
