@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Header } from '../components/Header';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types/Transaction';
@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteTransaction, getTransactions } from '../services/api';
 import dayjs from 'dayjs';
-import { DataGrid } from '@mui/x-data-grid';
 
 export function Transactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -15,6 +14,10 @@ export function Transactions() {
         console.log('delete', transactionId)
         deleteData(transactionId)
         fetchData()
+    }
+
+    const handleEdit = (transactionId: number) => {
+        console.log('edit', transactionId)
     }
 
     const deleteData = async (id: number) => {
@@ -58,28 +61,6 @@ export function Transactions() {
             <Box sx={{ pb: 2 }}>
                 <Button variant='contained' href='/add-transactions'>+ Add Transaction</Button>
             </Box>
-            <DataGrid
-                rows={transactions}
-                columns={[
-                    {
-                        field: 'id',
-                        headerName: 'ID'
-                    },
-                    {
-                        field: 'description',
-                        headerName: 'Description'
-                    },
-                    {
-                        field: 'amount',
-                        headerName: 'Amount'
-                    },
-                    {
-                        field: 'category',
-                        headerName: 'Category'
-                    },
-                ]}
-            />
-
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -101,7 +82,7 @@ export function Transactions() {
                                 <TableCell>{transaction.amount}</TableCell>
                                 <TableCell>{transaction.category}</TableCell>
                                 <TableCell>
-                                    <IconButton onClick={() => handleDelete(transaction.id)}><EditIcon /></IconButton>
+                                    <IconButton onClick={() => handleEdit(transaction.id)}><EditIcon /></IconButton>
                                     <IconButton onClick={() => handleDelete(transaction.id)}><DeleteIcon /></IconButton>
                                 </TableCell>
                             </TableRow>

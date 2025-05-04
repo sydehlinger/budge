@@ -48,7 +48,7 @@ export function AddTransactions() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} sx={{ pb: 2 }}>
                         <Controller
                             control={control}
                             name='date'
@@ -82,6 +82,7 @@ export function AddTransactions() {
                     <Button variant='contained' type="submit">Submit</Button>
                 </FormControl>
             </form>
+
             <Button variant='text'>+ Add Row</Button>
 
         </>

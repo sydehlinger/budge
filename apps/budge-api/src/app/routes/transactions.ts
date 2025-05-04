@@ -35,6 +35,28 @@ export default async function (fastify: FastifyInstance) {
     }
   })
 
+  fastify.post('/transactions/update/:id', async function (req: FastifyRequest, res: FastifyReply) {
+    const {id}: any = req.params;
+    const body: any = req.body;
+    console.log(`update transaction id: ${id} ${body}`)
+    try {
+      await prisma.transaction.update({
+        where: {
+          id: parseInt(id)
+        },
+        data: {
+          date: new Date(body.date),
+          description: body.description,
+          amount: body.amount,
+          category: body.category
+        } as any
+      })
+    } catch (err) {
+      console.log('error', err)
+      throw new Error()
+    }
+  })
+
   fastify.post('/transactions/delete/:id', async function (req: FastifyRequest, res: FastifyReply) {
       const {id}: any = req.params;
       console.log('delete transaction', id)
