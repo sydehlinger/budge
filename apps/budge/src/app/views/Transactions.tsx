@@ -11,6 +11,7 @@ export function Transactions() {
     const handleDelete = (transactionId: number) => {
         console.log('delete', transactionId)
         deleteData(transactionId)
+        fetchData()
     }
 
     const deleteData = async (id: number) => {
@@ -63,6 +64,7 @@ export function Transactions() {
                             <TableCell>Description</TableCell>
                             <TableCell>Amount</TableCell>
                             <TableCell>Category</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
