@@ -7,7 +7,8 @@ import { Transaction } from '../../types/Transaction';
 import dayjs from 'dayjs';
 import { deleteData, updateTransaction } from '../../services/api';
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { DatePicker } from '@mui/x-date-pickers';
 
 export function TransactionTableRow(props: { transaction: Transaction, fetchTransactionData: any }) {
     const [isEditable, setIsEditable] = useState(false);
@@ -34,10 +35,9 @@ export function TransactionTableRow(props: { transaction: Transaction, fetchTran
     }
 
     const handleSave: SubmitHandler<Transaction> = async (data) => {
-        console.log('save', { ...data, id: props.transaction.id})
+        console.log('save', { ...data, id: props.transaction.id })
         setIsEditable(!isEditable)
-        //todo call api to update row
-        await updateTransaction({ ...data, id: props.transaction.id})
+        await updateTransaction({ ...data, id: props.transaction.id })
         props.fetchTransactionData()
 
     }
@@ -47,7 +47,22 @@ export function TransactionTableRow(props: { transaction: Transaction, fetchTran
             {isEditable
                 ? <TableRow key={props.transaction.id}>
                     <TableCell>{props.transaction.id}</TableCell>
-                    <TableCell><p>Datepicker</p></TableCell>
+                    <TableCell>
+                        <Controller
+                            control={control}
+                            name='date'
+                            render={({ field }) => {
+                                return (<DatePicker
+                                    label="Date"
+                                    defaultValue={field.value}
+                                    inputRef={field.ref}
+                                    onChange={(date) => {
+                                        field.onChange(date?.format('MM/DD/YYYY'));
+                                    }}
+                                />)
+                            }}
+                        />
+                    </TableCell>
                     <TableCell>
                         <form onSubmit={handleSubmit(handleSave)}>
                             <TextField label='Description' {...register('description')} />

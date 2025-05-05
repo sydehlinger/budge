@@ -9,7 +9,7 @@ export default async function (fastify: FastifyInstance) {
     //call to get all transactions from database
     console.log('get all transactions')
     try {
-      const transactions = await prisma.transaction.findMany()
+      const transactions = await prisma.transaction.findMany({orderBy: [{ id: 'asc' }]})
       return transactions
     } catch (err) {
       console.log('error', err)
@@ -36,7 +36,7 @@ export default async function (fastify: FastifyInstance) {
   })
 
   fastify.post('/transactions/update/:id', async function (req: FastifyRequest, res: FastifyReply) {
-    const {id}: any = req.params;
+    const { id }: any = req.params;
     const body: any = req.body;
     console.log(`update transaction id: ${id} ${body}`)
     try {
@@ -58,12 +58,12 @@ export default async function (fastify: FastifyInstance) {
   })
 
   fastify.post('/transactions/delete/:id', async function (req: FastifyRequest, res: FastifyReply) {
-      const {id}: any = req.params;
-      console.log('delete transaction', id)
+    const { id }: any = req.params;
+    console.log('delete transaction', id)
     try {
       await prisma.transaction.delete({
         where: {
-            id: parseInt(id)
+          id: parseInt(id)
         }
       })
     } catch (err) {
