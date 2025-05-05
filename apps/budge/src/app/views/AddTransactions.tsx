@@ -82,7 +82,6 @@ export function AddTransactions() {
                     <Button variant='contained' type="submit">Submit</Button>
                 </FormControl>
             </form>
-
             <Button variant='text'>+ Add Row</Button>
 
         </>

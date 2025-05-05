@@ -45,10 +45,10 @@ export default async function (fastify: FastifyInstance) {
           id: parseInt(id)
         },
         data: {
-          date: new Date(body.date),
-          description: body.description,
-          amount: body.amount,
-          category: body.category
+          date: body.date ? new Date(body.date) : undefined,
+          description: body.description || undefined,
+          amount: body.amount || undefined,
+          category: body.category || undefined
         } as any
       })
     } catch (err) {
