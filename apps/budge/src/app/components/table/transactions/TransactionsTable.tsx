@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { Transaction } from '../../types/Transaction';
+import { Transaction } from '../../../types/Transaction';
 import { TransactionTableRow } from './TransactionTableRow';
 
 export function TransactionsTable(props: { transactions: Transaction[], fetchData: any }) {

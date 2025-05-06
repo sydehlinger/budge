@@ -3,7 +3,7 @@ import { Header } from '../components/Header';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types/Transaction';
 import { getTransactions } from '../services/api';
-import { TransactionsTable } from '../components/table/TransactionsTable';
+import { TransactionsTable } from '../components/table/transactions/TransactionsTable';
 
 export function Transactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);

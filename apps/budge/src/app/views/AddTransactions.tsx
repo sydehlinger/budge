@@ -73,9 +73,10 @@ export function AddTransactions() {
                         {errors.amount && <span>This field is required</span>}
 
                         <Select defaultValue='' {...register('category', { required: true })}>
-                            <MenuItem value='Deposits'>Deposits</MenuItem>
                             <MenuItem value='Recurring'>Recurring</MenuItem>
+                            <MenuItem value='Insurance'>Insurance</MenuItem>
                             <MenuItem value='Utilities'>Utilities</MenuItem>
+                            <MenuItem value='Deposits'>Deposits</MenuItem>
                         </Select>
                         {errors.category && <span>This field is required</span>}
                     </Grid>

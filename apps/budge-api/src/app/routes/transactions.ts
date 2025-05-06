@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client'
-
+import { startOfMonth, endOfMonth } from 'date-fns'
 
 export default async function (fastify: FastifyInstance) {
   const prisma = new PrismaClient()
@@ -10,6 +10,43 @@ export default async function (fastify: FastifyInstance) {
     console.log('get all transactions')
     try {
       const transactions = await prisma.transaction.findMany({orderBy: [{ id: 'asc' }]})
+      return transactions
+    } catch (err) {
+      console.log('error', err)
+      throw new Error()
+    }
+  })
+
+  /*
+    brainstorm object: need transactions for the whole year by month
+    {
+      '01/2025': [
+        {
+          id: 1,
+          date: '',
+          description: '',
+          amount: 10.00,
+          category: Recurring,
+        },
+      ],
+      '02/2025': []
+    }
+  */
+  fastify.get('/transactions/:date', async function (req: FastifyRequest, res: FastifyReply) {
+    console.log('get transactions for month/year ...')
+    const { date }: any = req.params;
+    const start = startOfMonth(new Date(date))
+    const end = endOfMonth(new Date(date))
+
+    try {
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          date: {
+            gte: start,
+            lte: end
+          }
+        }
+      })
       return transactions
     } catch (err) {
       console.log('error', err)
