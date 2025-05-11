@@ -10,15 +10,7 @@ export function OverviewTable() {
                     <TableCell>Recurring</TableCell>
                     <TableCell>Insurance</TableCell>
                     <TableCell>Utilities</TableCell>
-                    <TableCell>Car</TableCell>
-                    <TableCell>Subscriptions</TableCell>
-                    <TableCell>Groceries</TableCell>
-                    <TableCell>Eating Out</TableCell>
-                    <TableCell>Gas</TableCell>
-                    <TableCell>Cats</TableCell>
-                    <TableCell>Fun</TableCell>
-                    <TableCell>Other</TableCell>
-                    <TableCell>Deposits</TableCell>
+                    <TableCell>Misc.</TableCell>
                     <TableCell>Total</TableCell>
                 </TableRow>
             </TableHead>

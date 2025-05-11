@@ -1,15 +1,14 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client'
-import { startOfMonth, endOfMonth } from 'date-fns'
+import { startOfMonth, endOfMonth, format } from 'date-fns'
 
 export default async function (fastify: FastifyInstance) {
   const prisma = new PrismaClient()
 
   fastify.get('/transactions', async function (req: FastifyRequest, res: FastifyReply) {
-    //call to get all transactions from database
     console.log('get all transactions')
     try {
-      const transactions = await prisma.transaction.findMany({orderBy: [{ id: 'asc' }]})
+      const transactions = await prisma.transaction.findMany({ orderBy: [{ id: 'asc' }] })
       return transactions
     } catch (err) {
       console.log('error', err)
@@ -17,23 +16,39 @@ export default async function (fastify: FastifyInstance) {
     }
   })
 
-  /*
-    brainstorm object: need transactions for the whole year by month
-    {
-      '01/2025': [
-        {
-          id: 1,
-          date: '',
-          description: '',
-          amount: 10.00,
-          category: Recurring,
-        },
-      ],
-      '02/2025': []
-    }
-  */
-  fastify.get('/transactions/:date', async function (req: FastifyRequest, res: FastifyReply) {
+  fastify.get('/transactions/overview', async function (req: FastifyRequest, res: FastifyReply) {
     console.log('get transactions for month/year ...')
+    const list: any[] = [];
+    try {
+      const currentYear = new Date().getFullYear();
+      const startDate = new Date(currentYear, 0, 1);
+      const endDate = new Date(currentYear, 11, 31);
+
+      const currentDate = new Date(startDate);
+
+      while (currentDate <= endDate) {
+        await prisma.transaction.findMany({
+          where: {
+            date: {
+              gte: currentDate,
+              lte: endOfMonth(currentDate)
+            }
+          }
+        }).then((transactions: any) => {
+          list.push({ date: format(currentDate, 'MM/yyyy'), transactions })
+        })
+        currentDate.setMonth(currentDate.getMonth() + 1);
+      }
+      console.log('list', list)
+      return list;
+    } catch (err) {
+      console.log('error', err)
+      throw new Error()
+    }
+  })
+
+  fastify.get('/transactions/:date', async function (req: FastifyRequest, res: FastifyReply) {
+    console.log('get transactions for given month')
     const { date }: any = req.params;
     const start = startOfMonth(new Date(date))
     const end = endOfMonth(new Date(date))

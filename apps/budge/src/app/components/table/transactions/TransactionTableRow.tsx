@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { Transaction } from '../../../types/Transaction';
 import dayjs from 'dayjs';
-import { deleteData, updateTransaction } from '../../../services/api';
+import { deleteData, updateData } from '../../../services/api';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -37,9 +37,8 @@ export function TransactionTableRow(props: { transaction: Transaction, fetchTran
     const handleSave: SubmitHandler<Transaction> = async (data) => {
         console.log('save', { ...data, id: props.transaction.id })
         setIsEditable(!isEditable)
-        await updateTransaction({ ...data, id: props.transaction.id })
+        await updateData({ ...data, id: props.transaction.id })
         props.fetchTransactionData()
-
     }
 
     return (

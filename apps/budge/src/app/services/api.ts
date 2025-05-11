@@ -1,6 +1,6 @@
 import { Transaction } from '../types/Transaction';
 
-export const getTransactions = async () => {
+const getTransactions = async () => {
   return await fetch('http://localhost:8080/transactions', {
     method: 'GET',
     headers: {
@@ -9,24 +9,7 @@ export const getTransactions = async () => {
   });
 }
 
-export const deleteTransaction = async (id: any) => {
-  return await fetch(`http://localhost:8080/transactions/delete/${id}`, {
-    method: 'POST'
-  });
-}
-
-export const updateTransaction = async (data: Transaction) => {
-  return await fetch(`http://localhost:8080/transactions/update/${data.id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  });
-}
-
-
-export const fetchData = async () => {
+export const fetchTransactions = async () => {
   try {
     const response = await getTransactions();
 
@@ -34,15 +17,17 @@ export const fetchData = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-    // Handle the data received from the API
-    console.log(data);
-    return data
+    return await response.json()
   } catch (error) {
     console.error('There was an error fetching the data:', error);
   }
 };
 
+const deleteTransaction = async (id: any) => {
+  return await fetch(`http://localhost:8080/transactions/delete/${id}`, {
+    method: 'POST'
+  });
+}
 
 export const deleteData = async (id: number) => {
   try {
@@ -58,10 +43,18 @@ export const deleteData = async (id: number) => {
   }
 };
 
+const updateTransaction = async (data: Transaction) => {
+  return await fetch(`http://localhost:8080/transactions/update/${data.id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+}
+
 export const updateData = async (data: Transaction) => {
-  try {
-    const transaction = {id: data.id, date: undefined, desription: data.description, amount: undefined, category: undefined}
-    
+  try {    
     const response = await updateTransaction(data);
 
     if (!response.ok) {

@@ -2,28 +2,18 @@ import { Box, Button } from '@mui/material';
 import { Header } from '../components/Header';
 import { useEffect, useState } from 'react';
 import { Transaction } from '../types/Transaction';
-import { getTransactions } from '../services/api';
+import { fetchTransactions} from '../services/api';
 import { TransactionsTable } from '../components/table/transactions/TransactionsTable';
 
 export function Transactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-    const fetchData = async () => {
-        try {
-            const response = await getTransactions();
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log(data);
-            setTransactions(data);
-        } catch (error) {
-            console.error('There was an error fetching the data:', error);
-        }
-    };
+    const getTransactions = () => {
+        fetchTransactions().then(data => setTransactions(data))
+    }
 
     useEffect(() => {
-        fetchData()
+        getTransactions()
     }, [])
 
     return (
@@ -34,7 +24,7 @@ export function Transactions() {
             </Box>
             <TransactionsTable
                 transactions={transactions}
-                fetchData={fetchData}
+                fetchData={getTransactions}
             />
         </>
     )
