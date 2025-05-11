@@ -8,11 +8,11 @@ export const getSeedData = async () => {
   }
 
   const pickYear = () => {
-    return chance.pickone([2023, 2024, 2025])
+    return chance.pickone([2022, 2023, 2024])
   }
 
-  const setDate = () => {
-    return chance.date({year: pickYear()})
+  const setDate = (year?: number) => {
+    return chance.date({year: year ?? pickYear()})
   }
 
   const setDescription = () => {
@@ -24,6 +24,42 @@ export const getSeedData = async () => {
   }
 
   const transactionData = [
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
+    {
+      date: setDate(2025),
+      description: setDescription(),
+      amount: setAmount(),
+      category: setCategory()
+    },
     {
       date: setDate(),
       description: setDescription(),

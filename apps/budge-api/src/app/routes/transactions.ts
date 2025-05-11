@@ -28,7 +28,6 @@ export default async function (fastify: FastifyInstance) {
 
       while (currentDate <= endDate) {
         await prisma.transaction.findMany({
-          orderBy: [{ date: 'asc' }],
           where: {
             date: {
               gte: currentDate,
