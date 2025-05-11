@@ -14,6 +14,7 @@ export function Transactions() {
         //call set year from drop down
         if (year === 'All') {
             getTransactions()
+            setYear('All')
         } else {
             fetchTransactionsByYear(year).then(data => {
                 setTransactions(data)
@@ -39,7 +40,7 @@ export function Transactions() {
 
     return (
         <>
-            <Header title='Transactions' />
+            <Header title={`Transactions - ${year}`} />
             <Grid container sx={{ pb: 2 }}>
                 <Grid size={10}>
                     <Button variant='contained' href='/add-transactions'>+ Add Transaction</Button>

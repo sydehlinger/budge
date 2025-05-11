@@ -25,8 +25,8 @@ export function OverviewTable() {
                 <TableBody>
                     {monthlyTransactions.map((transaction, index) => (
                         <TableRow key={index}>
-                            <TableCell>idk</TableCell>
                             <TableCell>{transaction.date}</TableCell>
+                            <TableCell>idk</TableCell>
                         </TableRow>
                         ))}
                     <TableRow>

@@ -6,7 +6,6 @@ export function Home() {
     return (
         <>
             <Header title='Overview' />
-            <Button href='/transactions'>Transactions</Button>
             <OverviewTable/>
         </>
     );

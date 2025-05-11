@@ -17,7 +17,7 @@ export default async function (fastify: FastifyInstance) {
   })
 
   fastify.get('/transactions/overview', async function (req: FastifyRequest, res: FastifyReply) {
-    console.log('get transactions for month/year ...')
+    console.log('get transactions by month/year')
     const list: any[] = [];
     try {
       const currentYear = new Date().getFullYear();
