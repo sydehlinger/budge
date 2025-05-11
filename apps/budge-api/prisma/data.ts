@@ -7,8 +7,12 @@ export const getSeedData = async () => {
     return chance.floating({fixed: 2, min: 0, max: 5000})
   }
 
+  const pickYear = () => {
+    return chance.pickone([2023, 2024, 2025])
+  }
+
   const setDate = () => {
-    return chance.date()
+    return chance.date({year: pickYear()})
   }
 
   const setDescription = () => {

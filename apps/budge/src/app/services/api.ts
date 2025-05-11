@@ -23,6 +23,54 @@ export const fetchTransactions = async () => {
   }
 };
 
+
+const getTransactionsByMonth = async () => {
+  return await fetch('http://localhost:8080/transactions/overview', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+export const fetchTransactionsByMonth = async () => {
+  try {
+    const response = await getTransactionsByMonth();
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('There was an error fetching the data:', error);
+  }
+};
+
+
+const getTransactionsByYear = async (year: string) => {
+  return await fetch(`http://localhost:8080/transactions/${year}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+export const fetchTransactionsByYear = async (year: string) => {
+  try {
+    const response = await getTransactionsByYear(year);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('There was an error fetching the data:', error);
+  }
+};
+
 const deleteTransaction = async (id: any) => {
   return await fetch(`http://localhost:8080/transactions/delete/${id}`, {
     method: 'POST'
