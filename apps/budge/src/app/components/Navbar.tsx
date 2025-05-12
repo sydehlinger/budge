@@ -7,14 +7,19 @@ export function Navbar() {
             <Toolbar>
                 <Container>
                     <Grid container justifyContent='space-between'>
-                        <Grid>
+                        <Grid size={8}>
                             <NavLink to='/'>
                                 <Typography variant='h6' >
                                     Budge
                                 </Typography>
                             </NavLink>
                         </Grid>
-                        <Grid>
+                        <Grid size={2}>
+                            <Button href='/manage-categories' sx={{color: 'white'}}>
+                                Categories
+                            </Button>
+                        </Grid>
+                        <Grid size={2}>
                             <Button href='/transactions' sx={{color: 'white'}}>
                                 Transactions
                             </Button>
