@@ -8,7 +8,6 @@ export function TransactionsTable(props: { transactions: Transaction[], fetchDat
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>ID</TableCell>
                         <TableCell>Date</TableCell>
                         <TableCell>Description</TableCell>
                         <TableCell>Amount</TableCell>

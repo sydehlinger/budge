@@ -45,7 +45,6 @@ export function TransactionTableRow(props: { transaction: Transaction, fetchTran
         <>
             {isEditable
                 ? <TableRow key={props.transaction.id}>
-                    <TableCell>{props.transaction.id}</TableCell>
                     <TableCell>
                         <Controller
                             control={control}
@@ -89,7 +88,6 @@ export function TransactionTableRow(props: { transaction: Transaction, fetchTran
                     </TableCell>
                 </TableRow>
                 : <TableRow key={props.transaction.id}>
-                    <TableCell>{props.transaction.id}</TableCell>
                     <TableCell>{dayjs(props.transaction.date).format('MM/DD/YYYY')}</TableCell>
                     <TableCell>{props.transaction.description}</TableCell>
                     <TableCell>{props.transaction.amount}</TableCell>
